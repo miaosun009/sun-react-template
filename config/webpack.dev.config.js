@@ -1,6 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin;
+const webpack = require('webpack');
 const SRC_PATH = path.resolve(__dirname, '..', 'src')
 const DIST_PATH = path.resolve(__dirname, '..', 'dist')
 
@@ -18,6 +19,16 @@ module.exports = {
     }
 }
 
+const typingsForCssModulesLoaderConf = {
+    loader: 'typings-for-css-modules-loader',
+    options: {
+        modules: true,
+        namedExport: true,
+        camelCase: true,
+        sass: true
+    }
+}
+
 /* 模块 配置 */
 module.exports.module = {
     rules: [
@@ -28,13 +39,7 @@ module.exports.module = {
         },
         {
             test: /\.scss$/,
-            exclude: path.resolve(SRC_PATH, 'assets/css'),
-            loader: 'style-loader!css-loader?modules&localIdentName=[local]_[hash:base64:5]!sass-loader?sourceMap=true'
-        },
-        {
-            test: /\.scss$/,
-            include: path.resolve(SRC_PATH, 'assets/css'),
-            loader: 'style-loader!css-loader?modules&localIdentName=[local]_[hash:base64:5]!sass-loader?sourceMap=true'
+            loader: 'style-loader!typings-for-css-modules-loader?modules&localIdentName=[local]_[hash:base64:5]&namedExport=true&camelCase=true&minimize=true&sass=true!sass-loader?sourceMap=true'
         },
         {
             test: /\.css$/,
@@ -65,7 +70,8 @@ module.exports.plugins = [
     new HtmlWebpackPlugin({
         template: SRC_PATH + "/index.html",
         filename: 'index.html'
-    })
+    }),
+    new webpack.WatchIgnorePlugin([/css\.d\.ts$/])
 ]
 
 /* devServer 配置 */

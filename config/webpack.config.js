@@ -32,13 +32,7 @@ module.exports.module = {
         },
         {
             test: /\.scss$/,
-            exclude: path.resolve(SRC_PATH, 'assets/css'),
-            use: [MiniCssExtractPlugin.loader, 'css-loader!sass-loader?sourceMap=true']
-        },
-        {
-            test: /\.scss$/,
-            include: path.resolve(SRC_PATH, 'assets/css'),
-            use: [MiniCssExtractPlugin.loader, 'css-loader?minimize=true!sass-loader?sourceMap=true']
+            use: [MiniCssExtractPlugin.loader, 'css-loader?modules&localIdentName=[local]_[hash:base64:5]&minimize=true!sass-loader?sourceMap=true']
         },
         {
             test: /\.css$/,
