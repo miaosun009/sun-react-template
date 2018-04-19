@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const tsImportPluginFactory = require('ts-import-plugin');
 const TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin;
 const webpack = require('webpack');
 const SRC_PATH = path.resolve(__dirname, '..', 'src')
@@ -29,12 +30,31 @@ const typingsForCssModulesLoaderConf = {
     }
 }
 
+const importPluginOption = [{
+    libraryName: 'antd',
+    libraryDirectory: 'lib',
+    style: 'css'
+  },
+  {
+    libraryName: 'antd-mobile',
+    libraryDirectory: 'lib',
+    style: 'css',
+  }
+];
+
 /* 模块 配置 */
 module.exports.module = {
-    rules: [
-        {
-            test: /\.tsx?$/,
-            use: 'ts-loader',
+    rules: [{
+            test: /\.ts|tsx?$/,
+            use: [{
+                loader: require.resolve('ts-loader'),
+                options: {
+                    transpileOnly: true,
+                    getCustomTransformers: () => ({
+                        before: [tsImportPluginFactory(importPluginOption)]
+                    })
+                }
+            }],
             exclude: /node_modules/
         },
         {

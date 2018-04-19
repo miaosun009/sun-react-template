@@ -1,3 +1,4 @@
+
 import * as Style from "assets/css/index.scss";
 import * as React from "react";
 import * as ReactDOM from "react-dom";

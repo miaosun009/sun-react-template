@@ -3,15 +3,19 @@
         "outDir": "dist",
         "baseUrl": "src",
         "noImplicitAny": true,
-        "module": "es6",
         "target": "es2017",
+        "module": "esnext",
+        "moduleResolution": "node",
         "jsx": "react",
         "allowJs": true,
+        "strict": false,
+        "allowSyntheticDefaultImports": true
     },
     "include": [
         "src/**/*"
     ],
     "exclude": [
         "node_modules",
+        "build"
     ]
 }
